@@ -170,12 +170,16 @@ function appendWordToBoard(currentGuess){
     currentGuess.forEach((letter,index) =>{
         let letterElem= document.createElement("div");
         letterElem.classList.add("letter")
+        let letterKey = document.getElementById("key-"+letter.toUpperCase())
         if (wordOfTheDay[index]===letter){
-            letterElem.classList.add("correct")
+            letterElem.classList.add("correct");
+            letterKey.classList.add("correct")
         }else if(wordOfTheDay.includes(letter)){
             letterElem.classList.add("shuffled")
+            letterKey.classList.add("shuffled")
         }else{
             letterElem.classList.add("none")
+            letterKey.classList.add("none")
         }
         letterElem.innerText=letter;
         
@@ -196,7 +200,6 @@ function setupOnScreenKeyboard(elemId){
         let keyId=keyElem.id;
         let splitId = keyId.split('-');
         let key=splitId[splitId.length-1];
-        console.log('Key activated: '+key);
         keyElem.addEventListener('touchstart',function(event){
             event.preventDefault();
             let keyId=event.target.id;
@@ -212,7 +215,6 @@ function setupOnScreenKeyboard(elemId){
 }
 
 var pressKey = function(key){
-    console.log("key press:"+key)
     if(key.includes("Enter")){
         submitWord(currentGuess);
         return
@@ -227,14 +229,12 @@ var pressKey = function(key){
         // bring current element in focus
         curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
         curentLetterElem.classList.add("infocus");
-        
         return
-        
     }
     if(isLetter(key)){
         let curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        curentLetterElem.innerText = key;
-        currentGuess[letterInFocus]=key;
+        curentLetterElem.innerText = key.toUpperCase();
+        currentGuess[letterInFocus]=key.toUpperCase();
         letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
         
         bringToFocus('inputLetter'+letterInFocus)
