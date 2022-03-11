@@ -18,10 +18,19 @@ function init(){
         elem.maxLength="1";
         elem.oninput=function(e){
             console.log(e);
+            if (e.inputType=="deleteContentBackward"){ // backspace key press
+                let prevelem = document.getElementById("inputLetter"+(letterNo-1));
+                if (prevelem){
+                    prevelem.focus(); // focus prev letter 
+                }
+                return
+            }
             if (!isLetter(e.data)){
             document.getElementById('inputLetter'+letterNo).classList.add('invalid');
+            return
             }
-            nextelem = document.getElementById("inputLetter"+(letterNo+1));
+            
+            let nextelem = document.getElementById("inputLetter"+(letterNo+1));
             if (nextelem){
                 nextelem.focus(); // focus next letter automatically
             }
@@ -29,10 +38,12 @@ function init(){
         };
         inputSection.appendChild(elem);
         
+        // bring first letter in focus
+        document.getElementById("inputLetter0").focus();
         
     })
 
-    
+
     
     
 }
@@ -95,6 +106,16 @@ function submit(){
         }
 
         // clear after submitting a word
+        for (let letterNo = 0; letterNo < answerLetters.length; letterNo++) {
+            let letterElem = document.getElementById("inputLetter"+letterNo);
+            letterElem.value=""
+
+            
+        }
+
+        // bring focus to first letter
+        document.getElementById("inputLetter0").focus();
+
 
     }
     
@@ -108,6 +129,12 @@ window.addEventListener("keydown",function(e){
     if (e.keyCode ===13){
         submit();
     }
+    if (e.key=="Backspace"){
+    let prevelem = document.getElementById("inputLetter"+(letterNo-1));
+                if (prevelem){
+                    prevelem.focus(); // focus prev letter 
+                }
+            }
     
 })
 
