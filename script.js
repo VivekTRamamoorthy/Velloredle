@@ -18,6 +18,9 @@ function init(){
         elem.maxLength="1";
         elem.oninput=function(e){
             console.log(e);
+            if (!isLetter(e.data)){
+            document.getElementById('inputLetter'+letterNo).classList.add('invalid');
+            }
             nextelem = document.getElementById("inputLetter"+(letterNo+1));
             if (nextelem){
                 nextelem.focus(); // focus next letter automatically
@@ -28,6 +31,7 @@ function init(){
         
         
     })
+
     
     
     
@@ -50,8 +54,7 @@ function submit(){
         const inputElem = document.getElementById('inputLetter'+letterNo);
         let inputLetter = inputElem.value;
         if(!isLetter(inputLetter)){
-            document.getElementById('inputLetter'+letterNo).classList.add('invalid');
-            setTimeout(document.getElementById('inputLetter'+letterNo).classList.remove('invalid'),2000)
+
             passed = false;
         }
         currentGuess[letterNo] = inputLetter.toUpperCase();
@@ -81,6 +84,18 @@ function submit(){
         })
         let boardElem = document.getElementById("game-board");
         boardElem.appendChild(previousWord)
+
+        // word found
+        if(wordOfTheDay == currentGuess.join("")){
+            let inputSection = document.getElementById("input-section");
+            inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
+            let submitButton = document.getElementById("submit-button");
+            submitButton.style="display:none";
+
+        }
+
+        // clear after submitting a word
+
     }
     
     
@@ -97,6 +112,8 @@ window.addEventListener("keydown",function(e){
 })
 
 function isLetter(str) {
+    if(str){
     return str.length === 1 && str.match(/[a-z]/i);
+    }
 }
 
