@@ -37,15 +37,15 @@ function fetchLocalStorage(){
         noOfTries = guessedWords.length;
         console.log("loaded from local storage")
         guessedWords.forEach(word => submitWord(word))
-
+        
     }
-
-
+    
+    
 }
 
 // initial set up function 
 function init(){
-
+    
     // Creating the input boxes
     let elem;
     for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
@@ -64,8 +64,8 @@ function init(){
                 return
             }
             if (!isLetter(e.data)){
-            document.getElementById('inputLetter'+letterNo).classList.add('invalid');
-            return
+                document.getElementById('inputLetter'+letterNo).classList.add('invalid');
+                return
             }
             
             let nextelem = document.getElementById("inputLetter"+(letterNo+1));
@@ -78,75 +78,79 @@ function init(){
         inputSection.appendChild(elem);
         
         // bring first letter in focus
-        document.getElementById("inputLetter0").focus();
+        bringToFocus("inputLetter0");
         
     }
-
-
+    
+    
     
     
 }
 
+function bringToFocus(inputLetterId){
+    // remove focus from all elements
+    let allInputLetters=document.querySelectorAll(".letter.input");
+    allInputLetters.forEach(elem => elem.classList.remove("infocus"));
+    // bring current element in focus
+    let curentLetterElem = document.getElementById(inputLetterId);
+    curentLetterElem.classList.add("infocus");
+    
+}
 
-
-
-function submit(){
+function submitWord(submittedWord){
+    
     // clearing instructions on first submit
     if(firstsubmit){
         let boardElem = document.getElementById("game-board");
         boardElem.innerHTML="";
         firstsubmit =  false;
     }
-   
     
-    
-    
-    
-}
-
-function submitWord(submittedWord){
-     // checks
-     let passed = true
-     for (let letterNo = 0; letterNo < submittedWord.length; letterNo++) {
+    // checks
+    let passed = true
+    for (let letterNo = 0; letterNo < submittedWord.length; letterNo++) {
         //  const inputElem = document.getElementById('inputLetter'+letterNo);
-         let inputLetter = submittedWord[letterNo];
-         if(!isLetter(inputLetter)){
-             passed = false;
-         }
-         submittedWord[letterNo] = inputLetter.toUpperCase();
-     }
-     
-     // if passed
-     if (passed){
-         // update the set of guessed words in session and local
-         guessedWords.push(submittedWord.join(''));
-         localStorage.setItem("guessedWords",guessedWords);
- 
-         appendWordToBoard(submittedWord)
- 
-         // word found
-         if(wordOfTheDay == submittedWord.join("")){
-             let inputSection = document.getElementById("input-section");
-             inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
-             let submitButton = document.getElementById("submit-button");
-             submitButton.style="display:none";
- 
-         }
- 
-         // clear after submitting a word
-         for (let letterNo = 0; letterNo < currentGuess.length; letterNo++) {
-             let letterElem = document.getElementById("inputLetter"+letterNo);
-             letterElem.value="";
-             currentGuess[letterNo]="";
- 
-             
-         }
- 
-         // bring focus to  the first letter
-         document.getElementById("inputLetter0").classList.add("infocus");
- 
- 
-     }
+        let inputLetter = submittedWord[letterNo];
+        if(!isLetter(inputLetter)){
+            passed = false;
+        }
+        submittedWord[letterNo] = inputLetter.toUpperCase();
+    }
+    
+    // if passed
+    if (passed){
+        // update the set of guessed words in session and local
+        guessedWords.push(submittedWord.join(''));
+        localStorage.setItem("guessedWords",guessedWords);
+        
+        appendWordToBoard(submittedWord)
+        
+        // word found
+        if(wordOfTheDay == submittedWord.join("")){
+            let inputSection = document.getElementById("input-section");
+            inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
+            let onScreenKeyboard = document.getElementById("onscreen-keyboard");
+            onScreenKeyboard.innerHTML = "<div class='congratulations'>Well done! </div>";
+            
+        }else{
+            
+            // clear after submitting a word
+            for (let letterNo = 0; letterNo < currentGuess.length; letterNo++) {
+                let letterElem = document.getElementById("inputLetter"+letterNo);
+                letterElem.innerText="";
+                currentGuess[letterNo]="";
+                
+                
+            }
+            
+            // bring focus to  the first letter
+            letterInFocus =0;
+            bringToFocus("inputLetter"+letterInFocus)
+        }
+        
+        
+        
+    }
 }
 
 window.addEventListener("keydown",function(e){
@@ -156,17 +160,17 @@ window.addEventListener("keydown",function(e){
         submit();
     }
     if (e.key=="Backspace"){
-    let prevelem = document.getElementById("inputLetter"+(letterNo-1));
-                if (prevelem){
-                    prevelem.focus(); // focus prev letter 
-                }
-            }
+        let prevelem = document.getElementById("inputLetter"+(letterNo-1));
+        if (prevelem){
+            prevelem.focus(); // focus prev letter 
+        }
+    }
     
 })
 
 function isLetter(str) {// "a" -> true "." -> false
     if(str){
-    return str.length === 1 && str.match(/[a-z]/i);
+        return str.length === 1 && str.match(/[a-z]/i);
     }
 }
 
@@ -231,31 +235,24 @@ function setupOnScreenKeyboard(elemId){
                 // bring current element in focus
                 curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
                 curentLetterElem.classList.add("infocus");
-        
+                
                 return
-        
+                
             }
             if(isLetter(key)){
                 let curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
                 curentLetterElem.innerText = key;
                 currentGuess[letterInFocus]=key;
                 letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
-                // remove focus from all elements
-                let allInputLetters=document.querySelectorAll(".letter.input");
-                allInputLetters.forEach(elem => elem.classList.remove("infocus"));
-                // bring current element in focus
-                curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-                curentLetterElem.classList.add("infocus");
+                
+                bringToFocus('inputLetter'+letterInFocus)
+                
             }
-        
+            
         })
     })
-
-
-
+    
+    
+    
 }
 
-
-function pressKey(key){
-   
-}
