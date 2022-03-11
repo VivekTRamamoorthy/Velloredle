@@ -54,26 +54,6 @@ function init(){
         elem.id='inputLetter'+letterNo;
         elem.classList.add("letter");
         elem.classList.add("input");
-        // adding features to the text box
-        elem.oninput=function(e){
-            if (e.inputType=="deleteContentBackward"){ // backspace key press
-                let prevelem = document.getElementById("inputLetter"+(letterNo-1));
-                if (prevelem){
-                    prevelem.focus(); // focus prev letter 
-                }
-                return
-            }
-            if (!isLetter(e.data)){
-                document.getElementById('inputLetter'+letterNo).classList.add('invalid');
-                return
-            }
-            
-            let nextelem = document.getElementById("inputLetter"+(letterNo+1));
-            if (nextelem){
-                nextelem.focus(); // focus next letter automatically
-            }
-            
-        };
         let inputSection = document.getElementById("input-section");
         inputSection.appendChild(elem);
         
@@ -154,18 +134,7 @@ function submitWord(submittedWord){
 }
 
 window.addEventListener("keydown",function(e){
-    console.log(e)
-    if (e.keyCode ===13){
-        console.log(e)
-        submit();
-    }
-    if (e.key=="Backspace"){
-        let prevelem = document.getElementById("inputLetter"+(letterNo-1));
-        if (prevelem){
-            prevelem.focus(); // focus prev letter 
-        }
-    }
-    
+    pressKey(e.key);    
 })
 
 function isLetter(str) {// "a" -> true "." -> false
@@ -220,8 +189,18 @@ function setupOnScreenKeyboard(elemId){
             let keyId=event.target.id;
             let splitId = keyId.split('-');
             let key=splitId[splitId.length-1];
-            console.log("key press:"+key)
-            if(key.includes("enter")){
+            pressKey(key);
+            
+        })
+    })
+    
+    
+    
+}
+
+function pressKey(key){
+    console.log("key press:"+key)
+            if(key.includes("Enter")){
                 submitWord(currentGuess);
                 return
             }
@@ -248,11 +227,4 @@ function setupOnScreenKeyboard(elemId){
                 bringToFocus('inputLetter'+letterInFocus)
                 
             }
-            
-        })
-    })
-    
-    
-    
 }
-
