@@ -8,6 +8,7 @@ var guessedWords=[] // will contain array of strings of the words guessed so far
 var currentGuess=[];
 var letterInFocus=0;
 var noOfTries = 0;
+var maxNoOfTries=6;
 // Fetch the word of the day
 getWordOfTheDay();
 
@@ -18,7 +19,7 @@ getWordOfTheDay();
 
 // initialising 
 init()
-
+fetchLocalStorage()
 
 
 // Get the word of the day from server
@@ -31,12 +32,13 @@ function getWordOfTheDay(){
 
 function fetchLocalStorage(){
     let guessedWordsLocal = localStorage.getItem("guessedWords")
-    console.log({guessedWordsLocal})
     if(guessedWordsLocal){
-        guessedWords = guessedWordsLocal;
-        noOfTries = guessedWords.length;
+        console.log({guessedWordsLocal})
+        let tempguessedWords = guessedWordsLocal.split(',')
+        guessedWords = [];
+        noOfTries = 0;
         console.log("loaded from local storage")
-        guessedWords.forEach(word => submitWord(word))
+        tempguessedWords.forEach(word => submitWord([...word]))
         
     }
     
@@ -91,7 +93,7 @@ function submitWord(submittedWord){
     
     // checks
     let passed = true
-    for (let letterNo = 0; letterNo < submittedWord.length; letterNo++) {
+    for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
         //  const inputElem = document.getElementById('inputLetter'+letterNo);
         let inputLetter = submittedWord[letterNo];
         if(!isLetter(inputLetter)){
@@ -103,7 +105,7 @@ function submitWord(submittedWord){
     // if passed
     if (passed){
         // update the set of guessed words in session and local
-        guessedWords.push(submittedWord.join(''));
+        guessedWords[noOfTries] = submittedWord.join('');
         localStorage.setItem("guessedWords",guessedWords);
         
         // add to no of tries
@@ -122,7 +124,7 @@ function submitWord(submittedWord){
             
         }
         // GAME OVER
-        if (noOfTries>=6){
+        if (noOfTries>=maxNoOfTries){
             let inputSection = document.getElementById("input-section");
             inputSection.innerHTML = "<div class='congratulations'>GAME OVER! </div>";
             let onScreenKeyboard = document.getElementById("onscreen-keyboard");
@@ -159,7 +161,7 @@ function isLetter(str) {// "a" -> true "." -> false
 
 // function to clear the local storage of guessedWords
 function clearLocal(){
-    localStorage.setItem("guessedWords",[])
+    localStorage.removeItem("guessedWords")
     return 0;
 }
 
@@ -201,6 +203,14 @@ function setupOnScreenKeyboard(elemId){
         let splitId = keyId.split('-');
         let key=splitId[splitId.length-1];
         keyElem.addEventListener('touchstart',function(event){
+            event.preventDefault();
+            let keyId=event.target.id;
+            let splitId = keyId.split('-');
+            let key=splitId[splitId.length-1];
+            pressKey(key);
+            
+        })
+        keyElem.addEventListener('click',function(event){
             event.preventDefault();
             let keyId=event.target.id;
             let splitId = keyId.split('-');
