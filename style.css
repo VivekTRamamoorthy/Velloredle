@@ -8,10 +8,12 @@ body{
 
 }
 
-
+h1{
+    font-size: 1.2rem;
+}
 .page-container{
     display:grid;
-    grid-template-rows: auto 1fr 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
     place-items: center;
     grid-gap: 1rem;
     background-color: #222 ;
@@ -91,6 +93,10 @@ input{
 .invalid{
     border: 2px solid red;
 }
+.infocus{
+    border: 2px solid green;
+
+}
 
 #game-board{
     display: flex;
@@ -107,4 +113,52 @@ input{
 }
 
 
+/* KEYBOARD */
+#onscreen-keyboard{
+    display:none;
+}
 
+.keyboard{
+    color:cyan;
+    background-color: #222;
+    height:2rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.keyboard .key{
+    flex-grow: 1;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border:1px solid cyan;
+
+}
+
+.key.gap1{
+    flex-grow:.25;
+    border:none;
+}
+.key.gap2{
+    flex-grow:.8;
+    border:none;
+}
+.key.enter1{
+    flex-grow: 2;
+    border-bottom: none;
+}
+.key.enter2{
+    flex-grow: 3;
+    border-top:none;
+}
+
+@media only screen and (max-width:680px) {
+    #onscreen-keyboard{
+        width:min(100vw,1000px);
+        display:flex;
+        flex-direction: column;
+        gap:0;
+    }
+    
+}
