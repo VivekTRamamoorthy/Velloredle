@@ -1,0 +1,110 @@
+*,*::before,*::after{
+    box-sizing: border-box;
+
+}
+body{
+    margin:0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+
+.page-container{
+    display:grid;
+    grid-template-rows: auto 1fr 1fr auto;
+    place-items: center;
+    grid-gap: 1rem;
+    background-color: #222 ;
+    color:#ddd;
+    min-height: 100vh;
+    padding: 2vh 2vw;
+}
+
+section{
+    text-align: center;
+}
+.explanation{
+    text-align: left;
+}
+
+.letter{
+    width: 2rem;
+    height:2rem;
+    font-size: 1.5rem;
+    display:flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.letter.shuffled{
+    color:#222;
+    background-color: yellow;
+    border-radius: 4px;
+}
+.letter.correct{
+    color:#222;
+    background-color: green;
+    border-radius: 4px;
+}
+.letter.none{
+    color:#222;
+    background-color: gray;
+    border-radius: 4px;
+}
+.letter.input{
+    color:white;
+    background-color: black;
+    border-radius: 4px;
+    /* border: 2px solid red; */
+}
+button{
+    font-size: 1rem;
+    color:white;
+    font:inherit;
+    background-color: black;
+    padding: .5rem;
+    box-shadow: none;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.intro{
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 1rem;
+    justify-content: center;
+}
+#input-section{
+    display:flex;
+    flex-wrap: nowrap;
+    gap: .5rem;
+    
+}
+
+input{
+    box-shadow: none;
+    border: none;
+}
+
+.invalid{
+    border: 2px solid red;
+}
+
+#game-board{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.previous-word{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:nowrap;
+    place-items: centered;
+    gap:.25rem;
+}
+
+
+
