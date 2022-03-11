@@ -1,20 +1,39 @@
 
 
 
-const wordOfTheDay = "VELLORE"
-const answerLetters = [...wordOfTheDay];
-var currentGuess=[];
-var guessedWords=[];
+const wordOfTheDay = "BHARATH"
+const answerLetters = [...wordOfTheDay]; // converts to character array
+var currentGuess=[]; // will contain the current word guess in char array form
+var guessedWords=[]; // will contain array of strings of the words guessed so far
+
+// Retrieving data from local storage
+window.addEventListener('load',()=>{
+    let guessedWordsLocal = localStorage.getItem("guessedWords")
+    console.log(guessedWordsLocal)
+    if(guessedWordsLocal){
+        guessedWords = guessedWordsLocal;
+        console.log("loaded from local storage")
+    }
+})
+
+function clearLocal(){
+    localStorage.setItem("guessedWords",[])
+    return 0;
+}
+
+
+// initial set up function
 function init(){
-    let inputSection = document.getElementById("input-section")
-    answerLetters.forEach((letter,letterNo) => {
+
+
+    let elem;
+    answerLetters.forEach((_letter,letterNo) => {
         elem = document.createElement("input")
         elem.type = "text";
         elem.id='inputLetter'+letterNo;
         elem.name = 'letter'+letterNo;
         elem.classList.add("letter");
         elem.classList.add("input");
-        console.log(letter)
         elem.maxLength="1";
         elem.oninput=function(e){
             console.log(e);
@@ -36,6 +55,7 @@ function init(){
             }
             
         };
+        let inputSection = document.getElementById("input-section");
         inputSection.appendChild(elem);
         
         // bring first letter in focus
@@ -73,7 +93,8 @@ function submit(){
     }
     
     if (passed){
-        guessedWords.push(currentGuess);
+        guessedWords.push(currentGuess.join(''));
+        localStorage.setItem("guessedWords",guessedWords)
         // add to the board
         
         
@@ -113,7 +134,7 @@ function submit(){
             
         }
 
-        // bring focus to first letter
+        // bring focus to  the first letter
         document.getElementById("inputLetter0").focus();
 
 
