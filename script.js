@@ -162,6 +162,7 @@ function isLetter(str) {// "a" -> true "." -> false
 // function to clear the local storage of guessedWords
 function clearLocal(){
     localStorage.removeItem("guessedWords")
+    alert("Cleared local Storage")
     return 0;
 }
 

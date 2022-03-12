@@ -19,7 +19,7 @@ h1{
     grid-gap: 1rem;
     background-color: #222 ;
     color:#ddd;
-    min-height: 100vh;
+    height: 100vh;
     padding: 2vh 2vw;
 }
 
@@ -154,6 +154,18 @@ input{
 .key.none{
     background-color: #111;
     color: #ddd;
+}
+
+#clearbutton{
+    position:fixed;
+    height: 2rem;
+    width:2rem;
+    top:0;
+    right:0;
+    color:inherit;
+    background-color: inherit;
+    border:none;
+
 }
 
 @media only screen and (max-width:2000px) {
