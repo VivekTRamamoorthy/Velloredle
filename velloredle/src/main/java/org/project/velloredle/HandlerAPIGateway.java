@@ -40,6 +40,7 @@ public class HandlerAPIGateway implements RequestHandler<APIGatewayProxyRequestE
 				response.setStatusCode(200);
 				HashMap<String, String> headers = new HashMap<String, String>();
 				headers.put("Content-Type", "application/json");
+				headers.put("Access-Control-Allow-Origin", "*" );
 				response.setHeaders(headers);
 				response.setBody("{}");
 				return response;
