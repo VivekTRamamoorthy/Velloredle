@@ -51,6 +51,7 @@ public class HandlerAPIGateway implements RequestHandler<APIGatewayProxyRequestE
 			response.setStatusCode(200);
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "application/json");
+			headers.put("Access-Control-Allow-Origin", "*" );
 			response.setHeaders(headers);
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("word",word);
@@ -67,9 +68,9 @@ public class HandlerAPIGateway implements RequestHandler<APIGatewayProxyRequestE
 		response.setStatusCode(200);
 		HashMap<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
+		headers.put("Access-Control-Allow-Origin", "*" );
 		response.setHeaders(headers);
-
-		response.setBody(null);
+		response.setBody("{}");
 		// log execution details
 		Util.logEnvironment(event, context, gson);
 		return response;
