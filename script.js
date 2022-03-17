@@ -231,20 +231,23 @@ var pressKey = function(key){
         return
     }
     if(key.includes("Backspace")){
-        let curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        curentLetterElem.innerText="";
-        letterInFocus = Math.max(letterInFocus-1,0);
-        // remove focus from all elements
-        let allInputLetters=document.querySelectorAll(".letter.input");
-        allInputLetters.forEach(elem => elem.classList.remove("infocus"));
-        // bring current element in focus
-        curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        curentLetterElem.classList.add("infocus");
+        let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+        if(currentLetterElem.innerText==""){
+            letterInFocus = Math.max(letterInFocus-1,0);
+            // remove focus from all elements
+            let allInputLetters=document.querySelectorAll(".letter.input");
+            allInputLetters.forEach(elem => elem.classList.remove("infocus"));
+            // bring current element in focus
+            currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+            currentLetterElem.classList.add("infocus");
+        }else{
+            currentLetterElem.innerText="";
+        }
         return
     }
     if(isLetter(key)){
-        let curentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        curentLetterElem.innerText = key.toUpperCase();
+        let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+        currentLetterElem.innerText = key.toUpperCase();
         currentGuess[letterInFocus]=key.toUpperCase();
         letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
         
