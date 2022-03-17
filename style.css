@@ -1,12 +1,12 @@
 *,*::before,*::after{
     box-sizing: border-box;
-
+    
 }
 
 body{
     margin:0;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+    
 }
 
 h1{
@@ -41,7 +41,7 @@ section{
     text-align: center;
     align-items: center;
     border-radius: 5px;
-
+    
 }
 
 .letter.shuffled{
@@ -84,7 +84,7 @@ input{
 }
 .infocus{
     border: 2px solid green;
-
+    
 }
 
 #game-board{
@@ -104,7 +104,17 @@ input{
 
 /* KEYBOARD */
 #onscreen-keyboard{
-    display:none;
+    width:min(96vw,1000px);
+    height:min(9rem,50vh);
+    display:flex;
+    flex-direction: column;
+    gap:0;
+    margin:0;
+    padding:0;
+}
+
+#onscreen-keybaord > *{
+    flex-grow: 1;
 }
 
 .keyboard{
@@ -123,7 +133,7 @@ input{
     justify-content: center;
     align-items: center;
     border:1px solid cyan;
-
+    
 }
 
 .key.gap1{
@@ -165,22 +175,31 @@ input{
     color:inherit;
     background-color: inherit;
     border:none;
-
+    
 }
 
-@media only screen and (max-width:2000px) {
-    #onscreen-keyboard{
-        width:min(96vw,1000px);
-        height:min(9rem,50vh);
-        display:flex;
-        flex-direction: column;
-        gap:0;
-        margin:0;
-        padding:0;
-        
-    }
-    #onscreen-keybaord > *{
-        flex-grow: 1;
+.not-a-word{
+    color:red;
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px;
+}
+
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
     }
     
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }

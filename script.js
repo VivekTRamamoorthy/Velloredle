@@ -7,21 +7,37 @@ var currentGuess=[];
 var letterInFocus=0;
 var noOfTries = 0;
 var maxNoOfTries=6;
-
+var fiveLetterWords
 
 getWordOfTheDay();
-init()
-fetchLocalStorage()
-setupOnScreenKeyboard()
+init();
+setupOnScreenKeyboard();
 
 window.addEventListener("keydown",window.fn = function(e){
     pressKey(e.key);    
 })
 
 
+
+// const reader = new FileReader();
+// reader.addEventListener("load",()=>{
+//     fiveLetterWords = reader.result;
+//     console.log("file loaded")
+// })
+// reader.readAsText("velloredle/src/wordlists/fiveletter.txt")
+fetch("velloredle/src/wordlists/fiveletter.txt")
+.then((result) => {
+    result.text()
+    .then(data=> {
+        fiveLetterWords = data.split("\n");
+        fetchLocalStorage();
+    })
+})
+
+
 function getWordOfTheDay(){
     // fetching from the database
-    wordOfTheDay = "TEST";
+    wordOfTheDay = "EAGLE";
     let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
     if (wordOfTheDayLocal != wordOfTheDay ){
         clearLocal();
@@ -63,6 +79,15 @@ function bringToFocus(inputLetterId){
 }
 
 function submitWord(submittedWord){
+    // word submit check
+    if(   !( fiveLetterWords.includes(submittedWord.join('').toLowerCase()) )   ){
+        document.getElementById("input-section").classList.add("not-a-word")
+        setTimeout( ()=>{document.getElementById("input-section").classList.remove("not-a-word")} ,200)
+        console.log('Not a word')
+        return
+    }
+
+
     // clearing instructions on first submit
     if(firstsubmit){
         let boardElem = document.getElementById("game-board");
