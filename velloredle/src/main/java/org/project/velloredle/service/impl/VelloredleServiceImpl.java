@@ -14,6 +14,8 @@ import org.project.velloredle.service.VelloredleService;
 
 public class VelloredleServiceImpl implements VelloredleService {
 
+	private static final String FILE_PATH = "/fiveletter.txt";
+
 	public String getWord(Date today) {
 
 		String wordOfTheDay = null;
@@ -23,27 +25,32 @@ public class VelloredleServiceImpl implements VelloredleService {
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int year = calendar.get(Calendar.YEAR);
 		String dateString = Integer.toString(date) + Integer.toString(month) + Integer.toString(year);
-		int randomLineNumber = getRandomWord(Long.parseLong(dateString));
-		System.out.println("Random Line Number "+randomLineNumber);
+		int randomLineNumber = this.getRandomNumber(Long.parseLong(dateString));
+		System.out.println("Random Line Number " + randomLineNumber);
+		wordOfTheDay = getRandomWord(randomLineNumber);
+		System.out.println("word of the day "+wordOfTheDay);
+		return wordOfTheDay;
+	}
 
-		InputStream inputStream = this.getClass().getResourceAsStream("/fiveletter.txt");
+	public int getRandomNumber(long seed) {
+		return Util.getRandomNumber(seed);
+	}
 
+	public String getRandomWord(int randomLineNumber) {
+		InputStream inputStream = this.getClass().getResourceAsStream(FILE_PATH);
+		String randomWord = null;
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-			Optional<String> wordOfTheDayObj = bufferedReader.lines().skip(randomLineNumber).limit(1).findAny();
+			Optional<String> randomWordObj = bufferedReader.lines().skip(randomLineNumber).limit(1).findAny();
 			bufferedReader.close();
-			if (wordOfTheDayObj.isPresent()) {
-				wordOfTheDay = wordOfTheDayObj.get();
+			if (randomWordObj.isPresent()) {
+				randomWord = randomWordObj.get();
 			}
-			return wordOfTheDay;
+			return randomWord;
 		} catch (IOException e1) {
 			System.out.println(e1.getMessage());
 			return null;
 		}
-	}
-
-	public int getRandomWord(long seed) {
-		return Util.getRandomNumber(seed);
 	}
 
 }
