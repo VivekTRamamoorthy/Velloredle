@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Util {
 	
-	private static final int MAX_VALUE = 5757;
+	private static final int MAX_VALUE = 1500;
 	
 	private static final ThreadLocal<Random> THREAD_LOCAL_RANDOM = ThreadLocal.withInitial(Random::new);
 
@@ -23,7 +23,7 @@ public class Util {
 	    logger.log("EVENT TYPE: " + event.getClass().toString());
 	  }
 	 
-	 // generate a pseudo random number between 0(inclusive) and 5757(exclusive)
+	 // generate a pseudo random number between 0(inclusive) and 1500(exclusive)
 	 public static int getRandomWord(long date) {
 		 
 		Random random = THREAD_LOCAL_RANDOM.get();
