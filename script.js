@@ -24,8 +24,12 @@ fetchLocalStorage()
 
 // Get the word of the day from server
 function getWordOfTheDay(){
-    wordOfTheDay = "CRANE";
-    
+    wordOfTheDay = "TEST";
+    let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
+    if (wordOfTheDayLocal != wordOfTheDay ){
+        clearLocal();
+        localStorage.setItem("wordOfTheDay",wordOfTheDay)
+    }
     // fetching from the databased :
 }
 
@@ -162,7 +166,8 @@ function isLetter(str) {// "a" -> true "." -> false
 // function to clear the local storage of guessedWords
 function clearLocal(){
     localStorage.removeItem("guessedWords")
-    alert("Cleared local Storage")
+    localStorage.removeItem("wordOfTheDay")
+    console.log("Cleared local Storage")
     return 0;
 }
 
