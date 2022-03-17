@@ -43,7 +43,7 @@ public class VelloredleServiceImpl implements VelloredleService {
 	}
 
 	public int getRandomWord(long seed) {
-		return Util.getRandomWord(seed);
+		return Util.getRandomNumber(seed);
 	}
 
 }

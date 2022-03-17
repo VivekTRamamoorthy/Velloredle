@@ -24,7 +24,7 @@ public class Util {
 	  }
 	 
 	 // generate a pseudo random number between 0(inclusive) and 1500(exclusive)
-	 public static int getRandomWord(long seed) {
+	 public static int getRandomNumber(long seed) {
 		 
 		Random random = THREAD_LOCAL_RANDOM.get();
 		random.setSeed(seed);
