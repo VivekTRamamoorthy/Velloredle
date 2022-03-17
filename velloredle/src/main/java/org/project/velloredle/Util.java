@@ -24,10 +24,10 @@ public class Util {
 	  }
 	 
 	 // generate a pseudo random number between 0(inclusive) and 1500(exclusive)
-	 public static int getRandomWord(long date) {
+	 public static int getRandomWord(long seed) {
 		 
 		Random random = THREAD_LOCAL_RANDOM.get();
-		random.setSeed(date);
+		random.setSeed(seed);
 		int lineNumber = random.nextInt(MAX_VALUE);
 		return lineNumber;
 		 
