@@ -1,57 +1,46 @@
 // VELLOREDLE 
-// By vetti fellows 
 
 var wordOfTheDay 
 var firstsubmit = true;
-var guessedWords=[] // will contain array of strings of the words guessed so far
-
+var guessedWords=[] 
 var currentGuess=[];
 var letterInFocus=0;
 var noOfTries = 0;
 var maxNoOfTries=6;
-// Fetch the word of the day
+
+
 getWordOfTheDay();
-
-// Retrieving data from local storage if present
-// window.addEventListener('load',fetchLocalStorage)
-
-
-
-// initialising 
 init()
 fetchLocalStorage()
+setupOnScreenKeyboard()
+
+window.addEventListener("keydown",window.fn = function(e){
+    pressKey(e.key);    
+})
 
 
-// Get the word of the day from server
 function getWordOfTheDay(){
+    // fetching from the database
     wordOfTheDay = "TEST";
     let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
     if (wordOfTheDayLocal != wordOfTheDay ){
         clearLocal();
         localStorage.setItem("wordOfTheDay",wordOfTheDay)
     }
-    // fetching from the databased :
 }
 
 
 function fetchLocalStorage(){
     let guessedWordsLocal = localStorage.getItem("guessedWords")
     if(guessedWordsLocal){
-        console.log({guessedWordsLocal})
         let tempguessedWords = guessedWordsLocal.split(',')
         guessedWords = [];
         noOfTries = 0;
-        console.log("loaded from local storage")
         tempguessedWords.forEach(word => submitWord([...word]))
-        
     }
-    
-    
 }
 
-// initial set up function 
 function init(){
-    
     // Creating the input boxes
     let elem;
     for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
@@ -62,38 +51,24 @@ function init(){
         elem.classList.add("input");
         let inputSection = document.getElementById("input-section");
         inputSection.appendChild(elem);
-        
-        // bring first letter in focus
         bringToFocus("inputLetter0");
-        
     }
-    
-    
-    
-    
 }
 
 function bringToFocus(inputLetterId){
-    // remove focus from all elements
     let allInputLetters=document.querySelectorAll(".letter.input");
     allInputLetters.forEach(elem => elem.classList.remove("infocus"));
-    // bring current element in focus
     let curentLetterElem = document.getElementById(inputLetterId);
     curentLetterElem.classList.add("infocus");
-    
 }
 
 function submitWord(submittedWord){
-    
-    
     // clearing instructions on first submit
     if(firstsubmit){
         let boardElem = document.getElementById("game-board");
         boardElem.innerHTML="";
         firstsubmit =  false;
     }
-    
-    
     
     // checks
     let passed = true
@@ -114,7 +89,6 @@ function submitWord(submittedWord){
         
         // add to no of tries
         noOfTries = guessedWords.length;
-        
         appendWordToBoard(submittedWord)
         
         //  VICTORY : CONGRATULATIONS
@@ -145,16 +119,8 @@ function submitWord(submittedWord){
         // bring focus to  the first letter
         letterInFocus =0;
         bringToFocus("inputLetter"+letterInFocus)
-        
-        
     }
-    
 }
-
-
-window.addEventListener("keydown",window.fn = function(e){
-    pressKey(e.key);    
-})
 
 function isLetter(str) {// "a" -> true "." -> false
     if(str){
@@ -162,16 +128,12 @@ function isLetter(str) {// "a" -> true "." -> false
     }
 }
 
-
-// function to clear the local storage of guessedWords
 function clearLocal(){
     localStorage.removeItem("guessedWords")
     localStorage.removeItem("wordOfTheDay")
-    console.log("Cleared local Storage")
     return 0;
 }
 
-//add a word to the board
 function appendWordToBoard(currentGuess){
     let currentGuessElement = document.createElement("div");
     currentGuessElement.classList.add("previous-word");
@@ -197,11 +159,6 @@ function appendWordToBoard(currentGuess){
     boardElem.appendChild(currentGuessElement)
 }
 
-
-
-// ON SCREEN KEYBOARD
-setupOnScreenKeyboard()
-
 function setupOnScreenKeyboard(elemId){
     let keys = document.querySelectorAll(".key");
     keys.forEach(keyElem=>{
@@ -214,7 +171,6 @@ function setupOnScreenKeyboard(elemId){
             let splitId = keyId.split('-');
             let key=splitId[splitId.length-1];
             pressKey(key);
-            
         })
         keyElem.addEventListener('click',function(event){
             event.preventDefault();
@@ -225,12 +181,9 @@ function setupOnScreenKeyboard(elemId){
             
         })
     })
-    
-    
-    
 }
 
-var pressKey = function(key){
+function pressKey(key){
     if(key.includes("Enter")){
         submitWord(currentGuess);
         return
@@ -257,6 +210,5 @@ var pressKey = function(key){
         letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
         
         bringToFocus('inputLetter'+letterInFocus)
-        
     }
 }
