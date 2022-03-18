@@ -44,7 +44,6 @@ function getWordOfTheDay(){
             date:date,
          })
     }
-    console.log(data)
     fetch(backendURL,data )
     .then((response)=>{
         return response.json();})
@@ -67,7 +66,7 @@ function getWordOfTheDay(){
         console.log(error)
         wordOfTheDay = "EAGLE";
         init();
-        fetchLocalStorage();
+        // fetchLocalStorage();
         return wordOfTheDay;
     })
 
@@ -192,20 +191,46 @@ function clearLocal(){
 function appendWordToBoard(currentGuess){
     let currentGuessElement = document.createElement("div");
     currentGuessElement.classList.add("previous-word");
+
+    let wordArray = wordOfTheDay.split("");
+    let guessArray = currentGuess;
+    let letterClasses=new Array(wordOfTheDay.length).fill("none");
+    // SHOULD IT BE GREEN?
+    for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+        if(guessArray[iGuess] == wordArray[iGuess] ){
+            letterClasses[iGuess] = "correct";
+            wordArray[iGuess] = '_'; // this letter will no longer be considered
+        }
+    }
+    // SHOULD IT BE YELLOW?
+    for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+        if(letterClasses[iGuess] != "correct" ){
+            for (let iWord = 0; iWord < wordArray.length; iWord++) {
+                if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
+                    letterClasses[iGuess] = "shuffled";
+                }
+                
+            }
+        }
+    }
+
+
     currentGuess.forEach((letter,index) =>{
         let letterElem= document.createElement("div");
         letterElem.classList.add("letter")
         let letterKey = document.getElementById("key-"+letter.toUpperCase())
-        if (wordOfTheDay[index]===letter){
-            letterElem.classList.add("correct");
-            letterKey.classList.add("correct")
-        }else if(wordOfTheDay.includes(letter)){
-            letterElem.classList.add("shuffled")
-            letterKey.classList.add("shuffled")
-        }else{
-            letterElem.classList.add("none")
-            letterKey.classList.add("none")
-        }
+        // if (wordOfTheDay[index]===letter){
+        //     letterElem.classList.add("correct");
+        //     letterKey.classList.add("correct");
+        // }else if(wordOfTheDay.includes(letter)){
+        //     letterElem.classList.add("shuffled")
+        //     letterKey.classList.add("shuffled")
+        // }else{
+        //     letterElem.classList.add("none")
+        //     letterKey.classList.add("none")
+        // }
+        letterElem.classList.add(letterClasses[index])
+        letterKey.classList.add(letterClasses[index])
         letterElem.innerText=letter;
         
         currentGuessElement.appendChild(letterElem)
