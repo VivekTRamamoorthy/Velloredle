@@ -1,7 +1,7 @@
 // VELLOREDLE 
 
 var wordOfTheDay 
-var firstsubmit = true;
+var firstSubmit = true;
 var guessedWords=[] 
 var currentGuess=[];
 var letterInFocus=0;
@@ -9,8 +9,8 @@ var noOfTries = 0;
 var maxNoOfTries=6;
 var fiveLetterWords
 
-getWordOfTheDay();
-init();
+
+
 setupOnScreenKeyboard();
 
 window.addEventListener("keydown",window.fn = function(e){
@@ -19,40 +19,70 @@ window.addEventListener("keydown",window.fn = function(e){
 
 
 
-// const reader = new FileReader();
-// reader.addEventListener("load",()=>{
-//     fiveLetterWords = reader.result;
-//     console.log("file loaded")
-// })
-// reader.readAsText("velloredle/src/wordlists/fiveletter.txt")
 fetch("velloredle/src/wordlists/fiveletter.txt")
 .then((result) => {
     result.text()
     .then(data=> {
         fiveLetterWords = data.split("\n");
-        fetchLocalStorage();
+        getWordOfTheDay();
     })
 })
 
 
 function getWordOfTheDay(){
     // fetching from the database
-    wordOfTheDay = "EAGLE";
-    let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
-    if (wordOfTheDayLocal != wordOfTheDay ){
-        clearLocal();
-        localStorage.setItem("wordOfTheDay",wordOfTheDay)
+    let backendURL = "https://3agu6w2r37.execute-api.ap-south-1.amazonaws.com/default/Velloredle";
+    let today = new Date();
+    let date = today.getDate()+'-'+(today.getMonth()+1).toString()+'-'+today.getFullYear().toString();
+
+    let data = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            date:date,
+         })
     }
+    console.log(data)
+    fetch(backendURL,data )
+    .then((response)=>{
+        return response.json();})
+        .then((body)=>{
+        let word = body.word;
+        if (word){
+            wordOfTheDay = word.toUpperCase();
+        }
+        let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
+        if (wordOfTheDayLocal != wordOfTheDay ){
+            clearLocal();
+            localStorage.setItem("wordOfTheDay",wordOfTheDay)
+        }
+        init();
+        fetchLocalStorage();
+        return wordOfTheDay;
+
+    })
+    .catch(error=>{
+        console.log(error)
+        wordOfTheDay = "EAGLE";
+        init();
+        fetchLocalStorage();
+        return wordOfTheDay;
+    })
+
+
+
 }
 
 
 function fetchLocalStorage(){
     let guessedWordsLocal = localStorage.getItem("guessedWords")
     if(guessedWordsLocal){
-        let tempguessedWords = guessedWordsLocal.split(',')
+        let tempGuessedWords = guessedWordsLocal.split(',')
         guessedWords = [];
         noOfTries = 0;
-        tempguessedWords.forEach(word => submitWord([...word]))
+        tempGuessedWords.forEach(word => submitWord([...word]))
     }
 }
 
@@ -89,10 +119,10 @@ function submitWord(submittedWord){
 
 
     // clearing instructions on first submit
-    if(firstsubmit){
+    if(firstSubmit){
         let boardElem = document.getElementById("game-board");
         boardElem.innerHTML="";
-        firstsubmit =  false;
+        firstSubmit =  false;
     }
     
     // checks
