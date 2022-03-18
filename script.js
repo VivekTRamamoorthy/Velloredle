@@ -34,7 +34,7 @@ function getWordOfTheDay(){
     let backendURL = "https://3agu6w2r37.execute-api.ap-south-1.amazonaws.com/default/Velloredle";
     let today = new Date();
     let date = today.getDate()+'-'+(today.getMonth()+1).toString()+'-'+today.getFullYear().toString();
-
+    
     let data = {
         method: 'POST',
         headers: {
@@ -42,253 +42,291 @@ function getWordOfTheDay(){
         },
         body: JSON.stringify({ 
             date:date,
-         })
+        })
     }
     fetch(backendURL,data )
     .then((response)=>{
         return response.json();})
         .then((body)=>{
-        let word = body.word;
-        if (word){
-            wordOfTheDay = word.toUpperCase();
-        }
-        let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
-        if (wordOfTheDayLocal != wordOfTheDay ){
-            clearLocal();
-            localStorage.setItem("wordOfTheDay",wordOfTheDay)
-        }
-        init();
-        fetchLocalStorage();
-        return wordOfTheDay;
-
-    })
-    .catch(error=>{
-        console.log(error)
-        wordOfTheDay = "EAGLE";
-        init();
-        // fetchLocalStorage();
-        return wordOfTheDay;
-    })
-
-
-
-}
-
-
-function fetchLocalStorage(){
-    let guessedWordsLocal = localStorage.getItem("guessedWords")
-    if(guessedWordsLocal){
-        let tempGuessedWords = guessedWordsLocal.split(',')
-        guessedWords = [];
-        noOfTries = 0;
-        tempGuessedWords.forEach(word => submitWord([...word]))
-    }
-}
-
-function init(){
-    // Creating the input boxes
-    let elem;
-    for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
-        // creating input element
-        elem = document.createElement("div")
-        elem.id='inputLetter'+letterNo;
-        elem.classList.add("letter");
-        elem.classList.add("input");
-        let inputSection = document.getElementById("input-section");
-        inputSection.appendChild(elem);
-        bringToFocus("inputLetter0");
-    }
-}
-
-function bringToFocus(inputLetterId){
-    let allInputLetters=document.querySelectorAll(".letter.input");
-    allInputLetters.forEach(elem => elem.classList.remove("infocus"));
-    let curentLetterElem = document.getElementById(inputLetterId);
-    curentLetterElem.classList.add("infocus");
-}
-
-function submitWord(submittedWord){
-    // word submit check
-    if(   !( fiveLetterWords.includes(submittedWord.join('').toLowerCase()) )   ){
-        document.getElementById("input-section").classList.add("not-a-word")
-        setTimeout( ()=>{document.getElementById("input-section").classList.remove("not-a-word")} ,200)
-        console.log('Not a word')
-        return
-    }
-
-
-    // clearing instructions on first submit
-    if(firstSubmit){
-        let boardElem = document.getElementById("game-board");
-        boardElem.innerHTML="";
-        firstSubmit =  false;
-    }
-    
-    // checks
-    let passed = true
-    for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
-        //  const inputElem = document.getElementById('inputLetter'+letterNo);
-        let inputLetter = submittedWord[letterNo];
-        if(!isLetter(inputLetter)){
-            passed = false;
-        }
-        submittedWord[letterNo] = inputLetter.toUpperCase();
-    }
-    
-    // if passed
-    if (passed){
-        // update the set of guessed words in session and local
-        guessedWords[noOfTries] = submittedWord.join('');
-        localStorage.setItem("guessedWords",guessedWords);
-        
-        // add to no of tries
-        noOfTries = guessedWords.length;
-        appendWordToBoard(submittedWord)
-        
-        //  VICTORY : CONGRATULATIONS
-        if(wordOfTheDay == submittedWord.join("")){
-            let inputSection = document.getElementById("input-section");
-            inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
-            let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-            onScreenKeyboard.innerHTML = "<div class='congratulations'>Well done! </div>";
-            pressKey = function(){};
-            return
+            let word = body.word;
+            if (word){
+                wordOfTheDay = word.toUpperCase();
+            }
+            let wordOfTheDayLocal = localStorage.getItem("wordOfTheDay")
+            if (wordOfTheDayLocal != wordOfTheDay ){
+                clearLocal();
+                localStorage.setItem("wordOfTheDay",wordOfTheDay)
+            }
+            init();
+            fetchLocalStorage();
+            return wordOfTheDay;
             
+        })
+        .catch(error=>{
+            console.log(error)
+            wordOfTheDay = "EAGLE";
+            init();
+            // fetchLocalStorage();
+            return wordOfTheDay;
+        })
+        
+        
+        
+    }
+    
+    
+    function fetchLocalStorage(){
+        let guessedWordsLocal = localStorage.getItem("guessedWords")
+        if(guessedWordsLocal){
+            let tempGuessedWords = guessedWordsLocal.split(',')
+            guessedWords = [];
+            noOfTries = 0;
+            tempGuessedWords.forEach(word => submitWord([...word]))
         }
-        // GAME OVER
-        if (noOfTries>=maxNoOfTries){
+    }
+    
+    function init(){
+        // Creating the input boxes
+        let elem;
+        for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
+            // creating input element
+            elem = document.createElement("div")
+            elem.id='inputLetter'+letterNo;
+            elem.classList.add("letter");
+            elem.classList.add("input");
             let inputSection = document.getElementById("input-section");
-            inputSection.innerHTML = "<div class='congratulations'>GAME OVER! </div>";
-            let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-            onScreenKeyboard.innerHTML = "<div class='congratulations'> The answer was:"+ wordOfTheDay+ " </div>";
-            pressKey = function(){};
+            inputSection.appendChild(elem);
+            bringToFocus("inputLetter0");
+        }
+    }
+    
+    function bringToFocus(inputLetterId){
+        let allInputLetters=document.querySelectorAll(".letter.input");
+        allInputLetters.forEach(elem => elem.classList.remove("infocus"));
+        let curentLetterElem = document.getElementById(inputLetterId);
+        curentLetterElem.classList.add("infocus");
+    }
+    
+    function submitWord(submittedWord){
+        // word submit check
+        if(   !( fiveLetterWords.includes(submittedWord.join('').toLowerCase()) )   ){
+            document.getElementById("input-section").classList.add("not-a-word")
+            setTimeout( ()=>{document.getElementById("input-section").classList.remove("not-a-word")} ,200)
+            console.log('Not a word')
             return
         }
-        // clear current word after submitting a word
-        for (let letterNo = 0; letterNo < currentGuess.length; letterNo++) {
-            let letterElem = document.getElementById("inputLetter"+letterNo);
-            letterElem.innerText="";
-            currentGuess[letterNo]="";
+        
+        
+        // clearing instructions on first submit
+        if(firstSubmit){
+            let boardElem = document.getElementById("game-board");
+            boardElem.innerHTML="";
+            firstSubmit =  false;
         }
-        // bring focus to  the first letter
-        letterInFocus =0;
-        bringToFocus("inputLetter"+letterInFocus)
-    }
-}
-
-function isLetter(str) {// "a" -> true "." -> false
-    if(str){
-        return str.length === 1 && str.match(/[a-z]/i);
-    }
-}
-
-function clearLocal(){
-    localStorage.removeItem("guessedWords")
-    localStorage.removeItem("wordOfTheDay")
-    return 0;
-}
-
-function appendWordToBoard(currentGuess){
-    let currentGuessElement = document.createElement("div");
-    currentGuessElement.classList.add("previous-word");
-
-    let wordArray = wordOfTheDay.split("");
-    let guessArray = currentGuess;
-    let letterClasses=new Array(wordOfTheDay.length).fill("none");
-    // SHOULD IT BE GREEN?
-    for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
-        if(guessArray[iGuess] == wordArray[iGuess] ){
-            letterClasses[iGuess] = "correct";
-            wordArray[iGuess] = '_'; // this letter will no longer be considered
+        
+        // checks
+        let passed = true
+        for (let letterNo = 0; letterNo < wordOfTheDay.length; letterNo++) {
+            //  const inputElem = document.getElementById('inputLetter'+letterNo);
+            let inputLetter = submittedWord[letterNo];
+            if(!isLetter(inputLetter)){
+                passed = false;
+            }
+            submittedWord[letterNo] = inputLetter.toUpperCase();
         }
-    }
-    // SHOULD IT BE YELLOW?
-    for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
-        if(letterClasses[iGuess] != "correct" ){
-            for (let iWord = 0; iWord < wordArray.length; iWord++) {
-                if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
-                    letterClasses[iGuess] = "shuffled";
-                }
+        
+        // if passed
+        if (passed){
+            // update the set of guessed words in session and local
+            guessedWords[noOfTries] = submittedWord.join('');
+            localStorage.setItem("guessedWords",guessedWords);
+            
+            // add to no of tries
+            noOfTries = guessedWords.length;
+            appendWordToBoard(submittedWord)
+            
+            //  VICTORY : CONGRATULATIONS
+            if(wordOfTheDay == submittedWord.join("")){
+                let inputSection = document.getElementById("input-section");
+                inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
+                let onScreenKeyboard = document.getElementById("onscreen-keyboard");
+                onScreenKeyboard.innerHTML = "<div class='congratulations'>Well done! </div>";
+                pressKey = function(){};
+                memeRightWord()
+                return
                 
             }
+            memeWrongWord()
+            // GAME OVER
+            if (noOfTries>=maxNoOfTries){
+                let inputSection = document.getElementById("input-section");
+                inputSection.innerHTML = "<div class='congratulations'>GAME OVER! </div>";
+                let onScreenKeyboard = document.getElementById("onscreen-keyboard");
+                onScreenKeyboard.innerHTML = "<div class='congratulations'> The answer was:"+ wordOfTheDay+ " </div>";
+                pressKey = function(){};
+                return
+            }
+            // clear current word after submitting a word
+            for (let letterNo = 0; letterNo < currentGuess.length; letterNo++) {
+                let letterElem = document.getElementById("inputLetter"+letterNo);
+                letterElem.innerText="";
+                currentGuess[letterNo]="";
+            }
+            // bring focus to  the first letter
+            letterInFocus =0;
+            bringToFocus("inputLetter"+letterInFocus)
         }
     }
-
-
-    currentGuess.forEach((letter,index) =>{
-        let letterElem= document.createElement("div");
-        letterElem.classList.add("letter")
-        let letterKey = document.getElementById("key-"+letter.toUpperCase())
-        // if (wordOfTheDay[index]===letter){
-        //     letterElem.classList.add("correct");
-        //     letterKey.classList.add("correct");
-        // }else if(wordOfTheDay.includes(letter)){
-        //     letterElem.classList.add("shuffled")
-        //     letterKey.classList.add("shuffled")
-        // }else{
-        //     letterElem.classList.add("none")
-        //     letterKey.classList.add("none")
-        // }
-        letterElem.classList.add(letterClasses[index])
-        letterKey.classList.add(letterClasses[index])
-        letterElem.innerText=letter;
+    
+    function isLetter(str) {// "a" -> true "." -> false
+        if(str){
+            return str.length === 1 && str.match(/[a-z]/i);
+        }
+    }
+    
+    function clearLocal(){
+        localStorage.removeItem("guessedWords")
+        localStorage.removeItem("wordOfTheDay")
+        return 0;
+    }
+    
+    function appendWordToBoard(currentGuess){
+        let currentGuessElement = document.createElement("div");
+        currentGuessElement.classList.add("previous-word");
         
-        currentGuessElement.appendChild(letterElem)
-    })
-    let boardElem = document.getElementById("game-board");
-    boardElem.appendChild(currentGuessElement)
-}
-
-function setupOnScreenKeyboard(elemId){
-    let keys = document.querySelectorAll(".key");
-    keys.forEach(keyElem=>{
-        let keyId=keyElem.id;
-        let splitId = keyId.split('-');
-        let key=splitId[splitId.length-1];
-        keyElem.addEventListener('touchstart',function(event){
-            event.preventDefault();
-            let keyId=event.target.id;
-            let splitId = keyId.split('-');
-            let key=splitId[splitId.length-1];
-            pressKey(key);
-        })
-        keyElem.addEventListener('click',function(event){
-            event.preventDefault();
-            let keyId=event.target.id;
-            let splitId = keyId.split('-');
-            let key=splitId[splitId.length-1];
-            pressKey(key);
+        let wordArray = wordOfTheDay.split("");
+        let guessArray = currentGuess;
+        let letterClasses=new Array(wordOfTheDay.length).fill("none");
+        // SHOULD IT BE GREEN?
+        for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+            if(guessArray[iGuess] == wordArray[iGuess] ){
+                letterClasses[iGuess] = "correct";
+                wordArray[iGuess] = '_'; // this letter will no longer be considered
+            }
+        }
+        // SHOULD IT BE YELLOW?
+        for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+            if(letterClasses[iGuess] != "correct" ){
+                for (let iWord = 0; iWord < wordArray.length; iWord++) {
+                    if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
+                        letterClasses[iGuess] = "shuffled";
+                    }
+                    
+                }
+            }
+        }
+        
+        
+        currentGuess.forEach((letter,index) =>{
+            let letterElem= document.createElement("div");
+            letterElem.classList.add("letter")
+            let letterKey = document.getElementById("key-"+letter.toUpperCase())
+            // if (wordOfTheDay[index]===letter){
+            //     letterElem.classList.add("correct");
+            //     letterKey.classList.add("correct");
+            // }else if(wordOfTheDay.includes(letter)){
+            //     letterElem.classList.add("shuffled")
+            //     letterKey.classList.add("shuffled")
+            // }else{
+            //     letterElem.classList.add("none")
+            //     letterKey.classList.add("none")
+            // }
+            letterElem.classList.add(letterClasses[index])
+            letterKey.classList.add(letterClasses[index])
+            letterElem.innerText=letter;
             
+            currentGuessElement.appendChild(letterElem)
         })
-    })
-}
-
-function pressKey(key){
-    if(key.includes("Enter")){
-        submitWord(currentGuess);
-        return
+        let boardElem = document.getElementById("game-board");
+        boardElem.appendChild(currentGuessElement)
     }
-    if(key.includes("Backspace")){
-        let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        if(currentLetterElem.innerText==""){
-            letterInFocus = Math.max(letterInFocus-1,0);
-            // remove focus from all elements
-            let allInputLetters=document.querySelectorAll(".letter.input");
-            allInputLetters.forEach(elem => elem.classList.remove("infocus"));
-            // bring current element in focus
-            currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-            currentLetterElem.classList.add("infocus");
-        }else{
-            currentLetterElem.innerText="";
+    
+    function setupOnScreenKeyboard(elemId){
+        let keys = document.querySelectorAll(".key");
+        keys.forEach(keyElem=>{
+            let keyId=keyElem.id;
+            let splitId = keyId.split('-');
+            let key=splitId[splitId.length-1];
+            keyElem.addEventListener('touchstart',function(event){
+                event.preventDefault();
+                let keyId=event.target.id;
+                let splitId = keyId.split('-');
+                let key=splitId[splitId.length-1];
+                pressKey(key);
+            })
+            keyElem.addEventListener('click',function(event){
+                event.preventDefault();
+                let keyId=event.target.id;
+                let splitId = keyId.split('-');
+                let key=splitId[splitId.length-1];
+                pressKey(key);
+                
+            })
+        })
+    }
+    
+    function pressKey(key){
+        if(key.includes("Enter")){
+            submitWord(currentGuess);
+            return
         }
-        return
+        if(key.includes("Backspace")){
+            let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+            if(currentLetterElem.innerText==""){
+                letterInFocus = Math.max(letterInFocus-1,0);
+                // remove focus from all elements
+                let allInputLetters=document.querySelectorAll(".letter.input");
+                allInputLetters.forEach(elem => elem.classList.remove("infocus"));
+                // bring current element in focus
+                currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+                currentLetterElem.classList.add("infocus");
+            }else{
+                currentLetterElem.innerText="";
+            }
+            return
+        }
+        if(isLetter(key)){
+            let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+            currentLetterElem.innerText = key.toUpperCase();
+            currentGuess[letterInFocus]=key.toUpperCase();
+            letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
+            
+            bringToFocus('inputLetter'+letterInFocus)
+        }
     }
-    if(isLetter(key)){
-        let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
-        currentLetterElem.innerText = key.toUpperCase();
-        currentGuess[letterInFocus]=key.toUpperCase();
-        letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
+    
+    
+    
+    function memeRightWord(){
+        let urls=["https://c.tenor.com/Mc8uL2wLoygAAAAC/emotional-sad.gif",
+        "https://static.toiimg.com/thumb/msid-18315515,width-800,height-600,resizemode-75,imgsize-9872,pt-32,y_pad-40/18315515.jpg"];
         
-        bringToFocus('inputLetter'+letterInFocus)
+        let imageNo = Math.floor(Math.random()*urls.length);
+        let memeDiv = document.getElementById("meme-display")
+        memeDiv.classList.add("unhide");
+        memeDiv.innerHTML = "";
+        let image = document.createElement("img");
+        image.src = urls[imageNo];
+        memeDiv.appendChild(image)
+        setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
+        
     }
-}
+    
+    function memeWrongWord(){
+        let urls=["https://www.researchgate.net/profile/Mallika_Vijaya_Kumar/publication/332812427/figure/fig1/AS:999987974516750@1615427120724/Few-memes-of-English-dialogues-from-Tamil-movies_Q320.jpg",
+        "https://cdnaws.sharechat.com/9e0fcaff-c5c1-4e0a-9e3b-61385861e59d-98b8444f-2fd6-49f2-8256-fc48423a7d64_compressed_40.jpg",
+        "https://i.pinimg.com/originals/10/83/36/10833618e7697a162f3415cda043635e.jpg",
+        "https://qph.fs.quoracdn.net/main-qimg-456dd3c334435b5061d42d756bb211f0.webp",
+    "http://commentphotos.com/images/opengraph/CommentPhotos.com_1419362230.jpg",
+"https://doolpictures.files.wordpress.com/2013/11/santhanam_119_35201174620123-e1385189568616.jpg"];
+        
+        let imageNo = Math.floor(Math.random()*urls.length);
+        let memeDiv = document.getElementById("meme-display")
+        memeDiv.classList.add("unhide");
+        memeDiv.innerHTML = "";
+        let image = document.createElement("img");
+        image.src = urls[imageNo];
+        memeDiv.appendChild(image)
+        setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
+        
+    }
