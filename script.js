@@ -196,7 +196,7 @@ function getWordOfTheDay(){
         
         let wordArray = wordOfTheDay.split("");
         let guessArray = currentGuess;
-        let letterClasses=new Array(wordOfTheDay.length).fill("none");
+        let letterClasses = new Array(wordOfTheDay.length).fill("none");
         // SHOULD IT BE GREEN?
         for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
             if(guessArray[iGuess] == wordArray[iGuess] ){
@@ -221,18 +221,17 @@ function getWordOfTheDay(){
             let letterElem= document.createElement("div");
             letterElem.classList.add("letter")
             let letterKey = document.getElementById("key-"+letter.toUpperCase())
-            // if (wordOfTheDay[index]===letter){
-            //     letterElem.classList.add("correct");
-            //     letterKey.classList.add("correct");
-            // }else if(wordOfTheDay.includes(letter)){
-            //     letterElem.classList.add("shuffled")
-            //     letterKey.classList.add("shuffled")
-            // }else{
-            //     letterElem.classList.add("none")
-            //     letterKey.classList.add("none")
-            // }
+            if (wordOfTheDay[index]===letter){
+                letterKey.classList.add("correct");
+                letterKey.classList.remove("none")
+                letterKey.classList.remove("shuffled")
+            }else if(wordOfTheDay.includes(letter)){
+                letterKey.classList.add("shuffled")
+                letterKey.classList.remove("none")
+            }else{
+                letterKey.classList.add("none")
+            }
             letterElem.classList.add(letterClasses[index])
-            letterKey.classList.add(letterClasses[index])
             letterElem.innerText=letter;
             
             currentGuessElement.appendChild(letterElem)
