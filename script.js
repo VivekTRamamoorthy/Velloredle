@@ -94,6 +94,9 @@ function getWordOfTheDay(){
             elem.id='inputLetter'+letterNo;
             elem.classList.add("letter");
             elem.classList.add("input");
+            elem.addEventListener('click',()=>{
+                bringToFocus("inputLetter"+letterNo)
+            })
             let inputSection = document.getElementById("input-section");
             inputSection.appendChild(elem);
             bringToFocus("inputLetter0");
