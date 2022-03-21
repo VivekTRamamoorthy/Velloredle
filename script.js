@@ -94,6 +94,9 @@ function getWordOfTheDay(){
             elem.id='inputLetter'+letterNo;
             elem.classList.add("letter");
             elem.classList.add("input");
+            elem.addEventListener('click',()=>{
+                bringToFocus("inputLetter"+letterNo)
+            })
             let inputSection = document.getElementById("input-section");
             inputSection.appendChild(elem);
             bringToFocus("inputLetter0");
@@ -210,6 +213,7 @@ function getWordOfTheDay(){
                 for (let iWord = 0; iWord < wordArray.length; iWord++) {
                     if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
                         letterClasses[iGuess] = "shuffled";
+                        wordArray[iWord] = '_'; // this letter will no longer be considered
                     }
                     
                 }
