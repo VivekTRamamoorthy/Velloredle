@@ -213,6 +213,7 @@ function getWordOfTheDay(){
                 for (let iWord = 0; iWord < wordArray.length; iWord++) {
                     if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
                         letterClasses[iGuess] = "shuffled";
+                        wordArray[iWord] = '_'; // this letter will no longer be considered
                     }
                     
                 }
