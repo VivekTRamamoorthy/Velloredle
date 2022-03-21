@@ -283,6 +283,7 @@ function getWordOfTheDay(){
                 // bring current element in focus
                 currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
                 currentLetterElem.classList.add("infocus");
+                currentLetterElem.innerText="";
             }else{
                 currentLetterElem.innerText="";
             }
