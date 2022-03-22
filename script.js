@@ -404,10 +404,10 @@ function shareResult(){
         shareButton.addEventListener("click", () => {
             navigator.share({ title: "Velloredle "+velloredleEdition, url: "https://vivektramamoorthy.github.io/Velloredle/", text: resultString })
             .then(()=>{
-                Swal.fire("Shared successfully");
+                console.log("Shared successfully");
             })
             .catch(()=>{
-                Swal.fire("Share failed.");
+                console.log("Share failed.");
             })
         })
     }
