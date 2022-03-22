@@ -107,10 +107,12 @@ function getWordOfTheDay(){
             elem.classList.add("letter");
             elem.classList.add("input");
             elem.addEventListener('click',()=>{
-                bringToFocus("inputLetter"+letterNo)
+                letterInFocus =letterNo;
+                bringToFocus("inputLetter"+letterInFocus)
             })
             let inputSection = document.getElementById("input-section");
             inputSection.appendChild(elem);
+            letterInFocus =0;
             bringToFocus("inputLetter0");
         }
     }
