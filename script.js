@@ -324,7 +324,20 @@ function pressKey(key){
 
 function memeRightWord(){
     let urls=["https://c.tenor.com/Mc8uL2wLoygAAAAC/emotional-sad.gif",
-    "https://static.toiimg.com/thumb/msid-18315515,width-800,height-600,resizemode-75,imgsize-9872,pt-32,y_pad-40/18315515.jpg"];
+    "https://thumbs.gfycat.com/UnawareKeenLarva-max-1mb.gif",
+    "https://c.tenor.com/PmqQsPCP7TAAAAAC/vadivelu-theivamey.gif",
+    "https://media0.giphy.com/media/2PKiy95Iq819K/giphy.gif",
+    "https://c.tenor.com/c2RRYLbF6FQAAAAC/padayappa.gif",
+    "https://c.tenor.com/wfLub8QailYAAAAC/neelambari-ramya-krishnan.gif",
+    "https://64.media.tumblr.com/835d2fd5c30f474a43e5a9a974c679e8/tumblr_n5sb9yhzqg1tyjnsvo2_400.gifv",
+    "https://qph.fs.quoracdn.net/main-qimg-298ac9bf924b7d71c19a1f46c1ec8414",
+    "https://c.tenor.com/qjfFFsj8hjYAAAAd/ravindra-jadeja-jadeja-sword-celebration.gif",
+    "https://c.tenor.com/Ctry-pVtoT8AAAAC/laugh-sirippu.gif",
+    "https://c.tenor.com/qaqVT8FnL2gAAAAM/cjcjcj.gif",
+    "https://i.makeagif.com/media/6-02-2018/1ueAX8.gif",
+    "https://c.tenor.com/qxEyNnTFAl4AAAAC/thalai-aaturan-premji.gif",
+    "https://media.kulfyapp.com/IPxsPD/IPxsPD-shared.gif",
+    "https://c.tenor.com/-DJ6CdWSuSIAAAAM/chalmaar-prabhudeva.gif"];
     
     let imageNo = Math.floor(Math.random()*urls.length);
     let memeDiv = document.getElementById("meme-display")
@@ -338,12 +351,52 @@ function memeRightWord(){
 }
 
 function memeWrongWord(){
-    let urls=["https://www.researchgate.net/profile/Mallika_Vijaya_Kumar/publication/332812427/figure/fig1/AS:999987974516750@1615427120724/Few-memes-of-English-dialogues-from-Tamil-movies_Q320.jpg",
+    let urls=["https://c.tenor.com/y9o2_bKG71gAAAAM/ahaan-vadivelu.gif",
     "https://cdnaws.sharechat.com/9e0fcaff-c5c1-4e0a-9e3b-61385861e59d-98b8444f-2fd6-49f2-8256-fc48423a7d64_compressed_40.jpg",
     "https://i.pinimg.com/originals/10/83/36/10833618e7697a162f3415cda043635e.jpg",
     "https://qph.fs.quoracdn.net/main-qimg-456dd3c334435b5061d42d756bb211f0.webp",
     "http://commentphotos.com/images/opengraph/CommentPhotos.com_1419362230.jpg",
-    "https://doolpictures.files.wordpress.com/2013/11/santhanam_119_35201174620123-e1385189568616.jpg"];
+    "https://doolpictures.files.wordpress.com/2013/11/santhanam_119_35201174620123-e1385189568616.jpg",
+    "https://i.pinimg.com/originals/7d/ee/a1/7deea12a7d62a0c0d941d8f21c37bb78.gif",
+    "https://thumbs.gfycat.com/JaggedPotableGrouper-size_restricted.gif",
+    "https://c.tenor.com/QLqnD4khdNQAAAAM/crying-vadivelu.gif",
+    "https://c.tenor.com/vUw6tLZmmasAAAAM/soona-paana.gif",
+    "https://c.tenor.com/KSsO31-7NzEAAAAM/lingaa-rajini.gif",
+    "https://c-sf.smule.com/s-sf-bck3/arr/31/35/b48fae4f-a161-449d-aa21-bc4a27d91242_1024.jpg",
+    "https://c.tenor.com/MSEmLvqfpTQAAAAC/unbelievable-sj-surya.gif",
+    "https://i.gifer.com/GT4C.gif",
+    "https://c.tenor.com/nXc2HYznzCsAAAAd/santhanam-caught.gif",
+    "https://thumbs.gfycat.com/RepentantFavoriteAmericanlobster-max-1mb.gif",
+    "https://i.makeagif.com/media/5-26-2020/738LbS.gif",
+    "https://media4.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.gif",
+    "https://c.tenor.com/IIBUhfm3NJ8AAAAC/padayappa-happy.gif",
+    "https://c.tenor.com/ULaISY1NBl8AAAAd/tamil-comedy-goundamani.gif",
+    "https://j.gifs.com/vZop69.gif",
+    "https://c.tenor.com/TECAbKgnLW8AAAAd/sooriyan-goundamani.gif",
+    "https://i.pinimg.com/originals/3a/29/50/3a2950acfe7c9a99b57999a7757146ad.gif",
+    "https://thumbs.gfycat.com/FirsthandClassicHeifer-max-1mb.gif",
+    "https://c.tenor.com/uNF4dBA5CxwAAAAC/andrew-strauss-shane-warne.gif",
+    "https://p.imgci.com/db/PICTURES/CMS/93900/93962.jpg",
+    "https://c.tenor.com/9tMyOrcR3Y4AAAAC/senthil-karagattakaran.gif",
+    "https://c.tenor.com/rE569gbbrhEAAAAC/senthil-mahaprabhu.gif",
+    "https://c.tenor.com/jvIyry4JXq8AAAAC/duck-hunt-nes.gif",
+    "https://c.tenor.com/_DUBSvGKLcAAAAAC/crying-kamal-haasan.gif",
+    "https://64.media.tumblr.com/3f976e2da2d4308a8222ab14d1104f32/b514ec609de602ae-62/s500x750/8e7e8bd277bce700d73451025d72a068874cf252.gifv",
+    "https://media3.giphy.com/media/15DpsBLrIrOa4/200w.gif?cid=82a1493b8af13t843vjczua5c0om4dytj096fcd7a4vw0a2o&rid=200w.gif&ct=g",
+    "https://i.makeagif.com/media/6-29-2018/qIOaTR.gif",
+    "https://i.pinimg.com/originals/cd/64/cc/cd64cc6d3e8b9000039504f485816fe0.gif",
+    "https://www.xwhos.com/photo/what_is_zodiac_sign_vadivelu_2019-03-11_6.webp",
+    "https://thumbs.gfycat.com/BestNeedyGoa-max-1mb.gif",
+    "https://c.tenor.com/hqTrjCi4fhkAAAAC/riz-vadivel.gif",
+    "https://c.tenor.com/GzxmC6ri_kEAAAAM/gifsblo-gifsblog.gif",
+    "https://c.tenor.com/Ws1AB_ax83QAAAAC/vera-level-vijay.gif",
+    "https://c.tenor.com/X5urDdnOVtEAAAAC/catch-miss-premji.gif",
+    "https://c.tenor.com/NH2EMxWsjUQAAAAM/my-gif.gif",
+    "https://c.tenor.com/_b997oSH-ucAAAAM/saani-la-adi-vangitan-vivek.gif",
+    "https://c.tenor.com/A9Mt86EA1u0AAAAd/feeling-santhanam.gif",
+    "https://c.tenor.com/FZo_ZlRMbXYAAAAC/kadallaye-illayam-jamin.gif",
+    "https://c.tenor.com/faZbWKDLWqQAAAAC/sarcastic-laugh-prabhu-deva.gif",
+    "https://c.tenor.com/YnuUOgMR88sAAAAC/gopal-goppal.gif"];
     
     let imageNo = Math.floor(Math.random()*urls.length);
     let memeDiv = document.getElementById("meme-display")
