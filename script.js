@@ -355,13 +355,11 @@ function getWordOfTheDay(){
 }
 
 function shareResult(){
-    let green  = "🟩"; // "\U+1F7E9"; 
-    let yellow = "🟨"; //"U+1F7EB";
-    let black  = "⬛"; // "U+2B1B";
-    console.log("share results")
+    let green  = "🟩";
+    let yellow = "🟨";
+    let black  = "⬛";
     let today = new Date();
-    let date = today.getFullYear().toString()+'-'+(today.getMonth()+1).toString()+'-'+ today.getDate();
-    let resultString ="Velloredle#"+velloredleEdition+" "+date+" ("+(noOfTries).toString()+"/6)"+"\n";
+    let resultString ="Velloredle"+velloredleEdition+" ("+(noOfTries).toString()+"/6)"+"\n";
     for (let i = 0; i < guessedWords.length; i++) {
         let wordArray = wordOfTheDay.split("");
         let guessArray = guessedWords[i].split("");
@@ -370,7 +368,7 @@ function shareResult(){
         for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
             if(guessArray[iGuess] == wordArray[iGuess] ){
                 letterClasses[iGuess] = green;
-                wordArray[iGuess] = '_'; // this letter will no longer be considered
+                wordArray[iGuess] = '_'; 
             }
         }
         // SHOULD IT BE YELLOW?
@@ -379,7 +377,7 @@ function shareResult(){
                 for (let iWord = 0; iWord < wordArray.length; iWord++) {
                     if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
                         letterClasses[iGuess] = yellow;
-                        wordArray[iWord] = '_'; // this letter will no longer be considered
+                        wordArray[iWord] = '_'; 
                     }
                     
                 }
@@ -388,7 +386,6 @@ function shareResult(){
         resultString=resultString.concat(letterClasses.join("")+"\n")
     }
     console.log(resultString); 
-    
     if (navigator.share === undefined){
         navigator.clipboard.writeText(resultString)
         .then(()=>{
