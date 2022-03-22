@@ -8,10 +8,12 @@ var letterInFocus=0;
 var noOfTries = 0;
 var maxNoOfTries=6;
 var fiveLetterWords
-
+var victoryMessage =  "Good Job!";
+var velloredleEdition = getVelloredleEdition();
 
 
 setupOnScreenKeyboard();
+
 
 window.addEventListener("keydown",window.fn = function(e){
     pressKey(e.key);    
@@ -28,6 +30,15 @@ fetch("velloredle/src/wordlists/fiveletter.txt")
     })
 })
 
+function getVelloredleEdition(){
+    const beginning = new Date('3/18/2022');
+    const today = new Date();
+    const diffTime = Math.abs(today - beginning);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const edition = diffDays+1;
+    document.getElementById("title").innerText="Velloredle #"+edition.toString();
+    return edition
+}
 
 function getWordOfTheDay(){
     // fetching from the database
@@ -46,7 +57,8 @@ function getWordOfTheDay(){
     }
     fetch(backendURL,data )
     .then((response)=>{
-        return response.json();})
+        return response.json();
+    })
         .then((body)=>{
             let word = body.word;
             if (word){
@@ -151,9 +163,16 @@ function getWordOfTheDay(){
             //  VICTORY : CONGRATULATIONS
             if(wordOfTheDay == submittedWord.join("")){
                 let inputSection = document.getElementById("input-section");
-                inputSection.innerHTML = "<div class='congratulations'>Congratulations! </div>";
+                if(noOfTries==5){victoryMessage = "Excellent!";}
+                if(noOfTries==4){victoryMessage = "Marvellous!";}
+                if(noOfTries==3){victoryMessage = "Brilliant!";}
+                if(noOfTries==2){victoryMessage = "Wow!";}
+                if(noOfTries==1){victoryMessage = "Are you a wizard or what!";}
+
+                inputSection.innerHTML = "<div class='congratulations'>"+victoryMessage+"</div>"
                 let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-                onScreenKeyboard.innerHTML = "<div class='congratulations'>Well done! </div>";
+                onScreenKeyboard.innerHTML = "<center><button id='shareBtn' class='share-button' onclick='shareResult()'>Share</button></center>";
+            
                 pressKey = function(){};
                 memeRightWord()
                 return
@@ -333,4 +352,66 @@ function getWordOfTheDay(){
         memeDiv.appendChild(image)
         setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
         
+}
+
+function shareResult(){
+    let green = "🟩"; // "\U+1F7E9"; 
+    let yellow = "🟨"; //"U+1F7EB";
+    let black = "⬛" ; // "U+2B1B";
+    console.log("share results")
+    let today = new Date();
+    let date = today.getFullYear().toString()+'-'+(today.getMonth()+1).toString()+'-'+ today.getDate();
+    let resultString ="Velloredle "+velloredleEdition+" "+date+" ("+(noOfTries).toString()+"/6)"+"\n";
+    for (let i = 0; i < guessedWords.length; i++) {
+        let wordArray = wordOfTheDay.split("");
+        let guessArray = guessedWords[i].split("");
+        let letterClasses = new Array(wordOfTheDay.length).fill(black);
+        // SHOULD IT BE GREEN?
+        for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+            if(guessArray[iGuess] == wordArray[iGuess] ){
+                letterClasses[iGuess] = green;
+                wordArray[iGuess] = '_'; // this letter will no longer be considered
+            }
+        }
+        // SHOULD IT BE YELLOW?
+        for (let iGuess = 0; iGuess < guessArray.length; iGuess++) {
+            if(letterClasses[iGuess] != green ){
+                for (let iWord = 0; iWord < wordArray.length; iWord++) {
+                    if (guessArray[iGuess] == wordArray[iWord] && iGuess !=iWord  ){
+                        letterClasses[iGuess] = yellow;
+                        wordArray[iWord] = '_'; // this letter will no longer be considered
+                    }
+                    
+                }
+            }
+        }
+        resultString=resultString.concat(letterClasses.join("")+"\n")
     }
+    console.log(resultString); 
+    
+    if (navigator.share === undefined){
+        navigator.clipboard.writeText(resultString)
+        .then(()=>{
+            Swal.fire('Copied to clipboard')
+
+        })
+        .catch((err) =>{
+            Swal.fire('Failed to copy');
+        })
+    }
+    else{
+        let shareButton = document.getElementById("shareBtn")
+        shareButton.addEventListener("click", () => {
+            navigator.share({ title: "Velloredle "+velloredleEdition, url: "https://vivektramamoorthy.github.io/Velloredle/", text: resultString })
+            .then(()=>{
+                Swal.fire("Shared successfully");
+            })
+            .catch(()=>{
+                Swal.fire("Share failed.");
+            })
+        })
+    }
+}
+
+
+
