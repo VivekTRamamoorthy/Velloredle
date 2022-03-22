@@ -402,7 +402,7 @@ function shareResult(){
     else{
         let shareButton = document.getElementById("shareBtn")
         shareButton.addEventListener("click", () => {
-            navigator.share({ title: "Velloredle "+velloredleEdition, url: "https://vivektramamoorthy.github.io/Velloredle/", text: resultString })
+            navigator.share({ title: "Velloredle "+velloredleEdition, url: "", text: resultString })
             .then(()=>{
                 console.log("Shared successfully");
             })
