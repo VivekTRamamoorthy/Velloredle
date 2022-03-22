@@ -361,7 +361,7 @@ function shareResult(){
     console.log("share results")
     let today = new Date();
     let date = today.getFullYear().toString()+'-'+(today.getMonth()+1).toString()+'-'+ today.getDate();
-    let resultString ="Velloredle "+velloredleEdition+" "+date+" ("+(noOfTries).toString()+"/6)"+"\n";
+    let resultString ="Velloredle#"+velloredleEdition+" "+date+" ("+(noOfTries).toString()+"/6)"+"\n";
     for (let i = 0; i < guessedWords.length; i++) {
         let wordArray = wordOfTheDay.split("");
         let guessArray = guessedWords[i].split("");
@@ -402,7 +402,7 @@ function shareResult(){
     else{
         let shareButton = document.getElementById("shareBtn")
         shareButton.addEventListener("click", () => {
-            navigator.share({ title: "Velloredle "+velloredleEdition, url: "", text: resultString })
+            navigator.share({ title: "Velloredle "+velloredleEdition, text: resultString })
             .then(()=>{
                 console.log("Shared successfully");
             })
