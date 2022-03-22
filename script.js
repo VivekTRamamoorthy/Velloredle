@@ -36,7 +36,7 @@ function getVelloredleEdition(){
     const diffTime = Math.abs(today - beginning);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const edition = diffDays;
-    document.getElementById("title").innerText="Velloredle #"+edition.toString();
+    document.getElementById("title").innerText="Velloredle "+edition.toString();
     return edition
 }
 
