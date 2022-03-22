@@ -126,7 +126,7 @@ function getWordOfTheDay(){
         // word submit check
         if(   !( fiveLetterWords.includes(submittedWord.join('').toLowerCase()) )   ){
             document.getElementById("input-section").classList.add("not-a-word")
-            setTimeout( ()=>{document.getElementById("input-section").classList.remove("not-a-word")} ,200)
+            setTimeout( ()=>{document.getElementById("input-section").classList.remove("not-a-word")} ,400)
             console.log('Not a word')
             return
         }
@@ -182,9 +182,9 @@ function getWordOfTheDay(){
             // GAME OVER
             if (noOfTries>=maxNoOfTries){
                 let inputSection = document.getElementById("input-section");
-                inputSection.innerHTML = "<div class='congratulations'>GAME OVER! </div>";
+                inputSection.innerHTML = "<div class='congratulations'>Game Over! </div>";
                 let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-                onScreenKeyboard.innerHTML = "<div class='congratulations'> The answer was:"+ wordOfTheDay+ " </div>";
+                onScreenKeyboard.innerHTML = "<div class='congratulations'> The answer was: <br>"+ wordOfTheDay+ " </div>";
                 pressKey = function(){};
                 return
             }
@@ -340,8 +340,8 @@ function getWordOfTheDay(){
         "https://cdnaws.sharechat.com/9e0fcaff-c5c1-4e0a-9e3b-61385861e59d-98b8444f-2fd6-49f2-8256-fc48423a7d64_compressed_40.jpg",
         "https://i.pinimg.com/originals/10/83/36/10833618e7697a162f3415cda043635e.jpg",
         "https://qph.fs.quoracdn.net/main-qimg-456dd3c334435b5061d42d756bb211f0.webp",
-    "http://commentphotos.com/images/opengraph/CommentPhotos.com_1419362230.jpg",
-"https://doolpictures.files.wordpress.com/2013/11/santhanam_119_35201174620123-e1385189568616.jpg"];
+        "http://commentphotos.com/images/opengraph/CommentPhotos.com_1419362230.jpg",
+        "https://doolpictures.files.wordpress.com/2013/11/santhanam_119_35201174620123-e1385189568616.jpg"];
         
         let imageNo = Math.floor(Math.random()*urls.length);
         let memeDiv = document.getElementById("meme-display")
@@ -355,9 +355,9 @@ function getWordOfTheDay(){
 }
 
 function shareResult(){
-    let green = "🟩"; // "\U+1F7E9"; 
+    let green  = "🟩"; // "\U+1F7E9"; 
     let yellow = "🟨"; //"U+1F7EB";
-    let black = "⬛" ; // "U+2B1B";
+    let black  = "⬛"; // "U+2B1B";
     console.log("share results")
     let today = new Date();
     let date = today.getFullYear().toString()+'-'+(today.getMonth()+1).toString()+'-'+ today.getDate();
