@@ -318,6 +318,19 @@ function pressKey(key){
         
         bringToFocus('inputLetter'+letterInFocus)
     }
+    if(key.includes("ArrowLeft")){
+        letterInFocus = Math.max(letterInFocus-1,0);
+        bringToFocus("inputLetter"+letterInFocus)
+
+    }
+    if(key.includes("ArrowRight")){
+        letterInFocus = Math.min(letterInFocus+1,wordOfTheDay.length-1);
+        bringToFocus("inputLetter"+letterInFocus)
+    }
+    if(key.includes("Delete")){
+        let currentLetterElem = document.getElementById("inputLetter"+letterInFocus);
+        currentLetterElem.innerText="";
+    }
 }
 
 
