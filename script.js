@@ -171,9 +171,9 @@ function submitWord(submittedWord){
             if(noOfTries==2){victoryMessage = "Wow!";}
             if(noOfTries==1){victoryMessage = "Are you a wizard or what!";}
             
-            inputSection.innerHTML = "<div class='congratulations'>"+victoryMessage+"</div>"
+            setTimeout( ()=>{ inputSection.innerHTML = "<div class='congratulations'>"+victoryMessage+"</div>"},6000)
             let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-            onScreenKeyboard.innerHTML = "<center><button id='shareBtn' class='share-button' onclick='shareResult()'>Share</button></center>";
+            setTimeout( ()=>{onScreenKeyboard.innerHTML = "<center><button id='shareBtn' class='share-button' onclick='shareResult()'>Share</button></center>";},6000)
             
             pressKey = function(){};
             setTimeout( ()=>{ memeRightWord()},3000)
