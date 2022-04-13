@@ -171,16 +171,16 @@ function submitWord(submittedWord){
             if(noOfTries==2){victoryMessage = "Wow!";}
             if(noOfTries==1){victoryMessage = "Are you a wizard or what!";}
             
-            inputSection.innerHTML = "<div class='congratulations'>"+victoryMessage+"</div>"
+            setTimeout( ()=>{ inputSection.innerHTML = "<div class='congratulations'>"+victoryMessage+"</div>"},6000)
             let onScreenKeyboard = document.getElementById("onscreen-keyboard");
-            onScreenKeyboard.innerHTML = "<center><button id='shareBtn' class='share-button' onclick='shareResult()'>Share</button></center>";
+            setTimeout( ()=>{onScreenKeyboard.innerHTML = "<center><button id='shareBtn' class='share-button' onclick='shareResult()'>Share</button></center>";},6000)
             
             pressKey = function(){};
-            memeRightWord()
+            setTimeout( ()=>{ memeRightWord()},3000)
             return
             
         }
-        memeWrongWord()
+        setTimeout( ()=>{ memeWrongWord()},3000)
         // GAME OVER
         if (noOfTries>=maxNoOfTries){
             let inputSection = document.getElementById("input-section");
@@ -256,7 +256,7 @@ function appendWordToBoard(currentGuess){
         }else{
             letterKey.classList.add("none")
         }
-        letterElem.classList.add(letterClasses[index])
+        setTimeout(()=>{letterElem.classList.add(letterClasses[index]) } , index*400)
         letterElem.innerText=letter;
         
         currentGuessElement.appendChild(letterElem)
@@ -359,7 +359,7 @@ function memeRightWord(){
     let image = document.createElement("img");
     image.src = urls[imageNo];
     memeDiv.appendChild(image)
-    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
+    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},3000)
     
 }
 
@@ -479,4 +479,11 @@ function shareResult(){
 }
 
 
-
+function displayCredits(){
+    Swal.fire('Velloredle',`Guess the 5 letter word in 6 tries. <br><br> <br> 
+    Green - Letter is in correct place<br> 
+    Yellow - Letter is shuffled <br> 
+    Gray - Not present. <br><br> 
+    A wordle clone by a group of friends from Vellore: <br> <br>
+    Bharath, Ramu & Vivek `,'info')
+}
