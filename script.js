@@ -418,7 +418,7 @@ function memeWrongWord(){
     let image = document.createElement("img");
     image.src = urls[imageNo];
     memeDiv.appendChild(image)
-    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
+    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},3000)
     
 }
 
@@ -458,23 +458,22 @@ function shareResult(){
         navigator.clipboard.writeText(resultString)
         .then(()=>{
             Swal.fire('Copied to clipboard')
-            
+
         })
         .catch((err) =>{
             Swal.fire('Failed to copy');
         })
     }
     else{
-        let shareButton = document.getElementById("shareBtn")
-        shareButton.addEventListener("click", () => {
-            navigator.share({ title: "Velloredle "+velloredleEdition, text: resultString })
-            .then(()=>{
-                console.log("Shared successfully");
-            })
+        navigator.share({ title: "Velloredle "+velloredleEdition, text: resultString })
             .catch(()=>{
                 console.log("Share failed.");
+                navigator.clipboard.writeText(resultString)
+                .then(()=>{Swal.fire('Copied to clipboard')})
+                .catch((err) =>{
+                    Swal.fire('Failed to copy');
+                })
             })
-        })
     }
 }
 
