@@ -418,7 +418,7 @@ function memeWrongWord(){
     let image = document.createElement("img");
     image.src = urls[imageNo];
     memeDiv.appendChild(image)
-    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},2000)
+    setTimeout(()=>{document.getElementById("meme-display").classList.remove("unhide");},3000)
     
 }
 
